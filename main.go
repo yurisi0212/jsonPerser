@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -8,17 +9,17 @@ import (
 	"strings"
 )
 
+const uri = "https://pokeapi.co/api/v2/pokemon/magikarp"
+
 func main() {
 	json := takeJsonData()
 	if !checkJsonFormat(json) {
-		fmt.Printf("this file is not json")
-		return
+		panic(errors.New("this file is not json"))
 	}
 	parseJson(json)
 }
 
 func takeJsonData() string {
-	uri := "https://pokeapi.co/api/v2/pokemon/magikarp"
 	req, err := http.Get(uri)
 	if err != nil {
 		log.Fatal("Get Http Error:", err)
