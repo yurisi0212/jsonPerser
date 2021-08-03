@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 )
@@ -16,19 +15,19 @@ func main() {
 	if !checkJsonFormat(json) {
 		panic(errors.New("this file is not json"))
 	}
-	parseJson(json)
+	parseJSON(json)
 }
 
 func takeJsonData() string {
 	req, err := http.Get(uri)
 	if err != nil {
-		log.Fatal("Get Http Error:", err)
+		panic(errors.New("get http error"))
 	}
 	body, err := ioutil.ReadAll(req.Body)
 	if err != nil {
-		log.Fatal("IO Read Error:", err)
+		panic(errors.New("io read error"))
 	}
-	defer req.Body.Close()
+	req.Body.Close()
 	return string(body)
 }
 
@@ -45,7 +44,7 @@ func checkJsonFormat(str string) bool {
 	return true
 }
 
-func parseJson(str string) {
+func parseJSON(str string) {
 	whitespace := 0
 	for _, c := range str {
 		switch c {
